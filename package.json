@@ -1,0 +1,19 @@
+{
+  "name": "lambdacreatefile",
+  "version": "1.0.0",
+  "description": "lambda to read data from dynamodb and create file and put on s3 using fs",
+  "main": "index.js",
+  "author": "navdeep.singh",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.437.0",
+    "axios": "^0.18.0"
+  },
+  "scripts": {
+    "test": "mocha --timeout 1000000 tests/unit/ "
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
+}

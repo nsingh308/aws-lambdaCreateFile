@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  lambdaCreateFile
+
+  Sample SAM Template for lambdaCreateFile
+  
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 10
+
+Resources:
+  CreateTableFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: ./
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Events:
+        CreateTable:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /createTable
+            Method: get
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  CreateTableApi:
+    Description: "API Gateway endpoint URL for Prod stage for Create Table function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/createTable/"
+  CreateTableFunction:
+    Description: "Create Table Lambda Function ARN"
+    Value: !GetAtt CreateTableFunction.Arn
+  CreateTableFunctionIamRole:
+    Description: "Implicit IAM Role created for CreateTable function"
+    Value: !GetAtt CreateTableFunctionRole.Arn
