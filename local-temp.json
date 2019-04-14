@@ -1,0 +1,1 @@
+{"statusCode":200,"body":"Query succeeded :{\n  \"Items\": [\n    {\n      \"year\": 2000,\n      \"info\": {\n        \"rating\": 0,\n        \"plot\": \"Nothing happens at all.\"\n      },\n      \"title\": \"33\"\n    }\n  ],\n  \"Count\": 1,\n  \"ScannedCount\": 1\n}"}

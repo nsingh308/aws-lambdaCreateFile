@@ -1,6 +1,6 @@
 
 const moviesSchema = {
-    TableName : "Movies1",
+    TableName : "Movies",
     KeySchema: [       
         { AttributeName: "year", KeyType: "HASH"},  //Partition key
         { AttributeName: "title", KeyType: "RANGE" }  //Sort key
