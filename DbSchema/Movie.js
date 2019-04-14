@@ -1,7 +1,7 @@
 
 const moviesSchema = {
     TableName : "Movies",
-    KeySchema: [       
+    /*KeySchema: [       
         { AttributeName: "year", KeyType: "HASH"},  //Partition key
         { AttributeName: "title", KeyType: "RANGE" }  //Sort key
     ],
@@ -12,7 +12,7 @@ const moviesSchema = {
     ProvisionedThroughput: {       
         ReadCapacityUnits: 10, 
         WriteCapacityUnits: 10
-    }
+    }*/
 };
 
 module.exports={

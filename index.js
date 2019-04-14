@@ -32,12 +32,13 @@ exports.handler =  async(event, context) => {
         console.log(thirdInsertion);
         const data =await movieDao.selectItemsConditionFunction(2000);
         console.log(data);
-        const tempFileName='local-temp.json', bucketFileName='uploadedFile.json', bucketName='code-nsingh308';
+        //for AWS environment use : /tmp//
+        const tempFileName='/tmp//local-temp.json', bucketFileName='uploadedFile.json', bucketName='code-nsingh308';
         const fStatus = await fileSystemUtil.createFileOnDisk(data,tempFileName);
         if(!fStatus){
             console.log('could not create file.')
             return { 
-                statusCode: 202, 
+                statusCode: 400, 
                 body: `Could not create file, Error occurred. you should debug.`
             }
         }//tempFileName, bucketFileName, bucketName

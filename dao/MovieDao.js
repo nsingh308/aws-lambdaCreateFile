@@ -18,6 +18,7 @@ class MovieDao{
      */
     async init(){
         const tableExists = await this.checkIfTableExists();
+        
         if(!tableExists){
             const tableCreated = await this.createTableFunction();
             console.log(tableCreated)
@@ -59,11 +60,11 @@ class MovieDao{
             let status=false;
             dynamodb.describeTable(moviesSchema, function(err, data) {
                 if (err) {
-                    status="false";
-                    //console.log(err, err.stack); // an error occurred
+                    status=false;
+                    console.log(err, err.stack); // an error occurred
                 }
                 else {
-                    status=("true");
+                    status=true;
                 }
                 resolve(status);
             });
