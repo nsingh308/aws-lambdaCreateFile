@@ -9,7 +9,6 @@ let {docClient,dynamodb} = require('../services/DbService');
 class MovieDao{
     
     constructor(){
-       this.init();
     }
 
     /**
@@ -20,10 +19,16 @@ class MovieDao{
         const tableExists = await this.checkIfTableExists();
         
         if(!tableExists){
-            const tableCreated = await this.createTableFunction();
-            console.log(tableCreated)
+            try{
+               console.log('Creating Table...')
+               await this.createTableFunction();
+               await this.waitForTableCreation();//can be removed if you dont want to wait for table creation.
+            }catch(error){
+                console.log('Error Occurred while creating table. Check and debug your code.')
+                throw error;
+            }
         }else{
-            console.log('No need to create table.. exists already.')
+            console.log('Table found..')
         }
     }
     
@@ -50,6 +55,25 @@ class MovieDao{
             });
         });
     }
+    
+    /*Table will not be immediately available. so lets wait for its creation...
+      remove this code if you are sure that you are not going to insert immediately after 
+      table creation task.
+    */              
+    waitForTableCreation(){
+        return new Promise((resolve,reject)=>{
+            const table = { TableName : moviesSchema.TableName }
+            dynamodb.waitFor('tableExists', table, (err, data) => {
+                if (err) {
+                    console.log(err, err.stack);
+                    reject(err)
+                }else{
+                    console.log(data)
+                    resolve(data)
+                }
+            });
+        })
+    }
 
     /**
      * Checks if the Table exists in the database.
@@ -58,12 +82,12 @@ class MovieDao{
     checkIfTableExists(){
         return new Promise((resolve, reject)=>{
             let status=false;
-            dynamodb.describeTable(moviesSchema, function(err, data) {
+            const table = { TableName : moviesSchema.TableName }          
+            dynamodb.describeTable(table, function(err, data) {
                 if (err) {
                     status=false;
-                    console.log(err, err.stack); // an error occurred
-                }
-                else {
+                    //console.log(err, err.stack); // an error occurred
+                }else {
                     status=true;
                 }
                 resolve(status);
@@ -164,7 +188,7 @@ class MovieDao{
     }
 
     prepareConditionForDeletion(year, title){
-        return params = {
+        return {
             TableName:moviesSchema.TableName,
             Key:{
                 "year": year,

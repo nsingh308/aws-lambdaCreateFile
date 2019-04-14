@@ -20,6 +20,7 @@ exports.handler =  async(event, context) => {
     try {    //pass the event to call individual functions
 
         const movieDao = new MovieDao();
+        await movieDao.init();
         const fileSystemUtil = new FileSystemUtil();
         const s3Service = new S3Service();
         const year = 2015; // these should be passed via event
